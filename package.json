@@ -1,0 +1,28 @@
+{
+  "name": "mongonewsscraper",
+  "version": "1.0.0",
+  "description": "News scraper",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdharris206/MongoNewsScraper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdharris206/MongoNewsScraper/issues"
+  },
+  "homepage": "https://github.com/mdharris206/MongoNewsScraper#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongojs": "^2.6.0",
+    "mongoose": "^5.6.1",
+    "nodemon": "^1.19.1"
+  }
+}
