@@ -2,18 +2,18 @@
 
 const express = require("express");
 const logger = require("morgan");
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 //Require axios and cheerio.
-var axios = require("axios");
-var cheerio = require("cheerio");
+const axios = require("axios");
+const cheerio = require("cheerio");
 
 //models
-var db = require("./models");
+const db = require("./models");
 
-var PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 //Express
-var app = express();
+const app = express();
 
 //morgan
 app.use(logger("dev"));
@@ -34,13 +34,13 @@ app.get("/scrape", function(req, res) {
   //Request via axios
   axios.get("https://www.gpbnews.org").then(function(response) {
     //body axios to cheerio
-    var $ = cheerio.load(response.data);
+    const $ = cheerio.load(response.data);
     // Get text and href of each link in element
     
-    var resultArray = [];
+    const resultArray = [];
     $("h2").each(function(i, element) {
 
-      var result ={};
+      const result ={};
       result.title = $(this)
         .children("a")
         .text();
@@ -71,7 +71,7 @@ app.get("/scrape", function(req, res) {
 
   });
   
-  res.send("Scrape Completed");
+  res.send("Scrape Completed hit back button to see articles");
 });
 
 //Route for getting all

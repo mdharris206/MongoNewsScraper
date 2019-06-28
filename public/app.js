@@ -1,11 +1,13 @@
 //Grab the articles as a json
 $(document).on("click","#scraper", function(){
-    location.reload();
+    window.location.pathname = "/scrape";
+    
+
 });
 
     $.getJSON("/articles", function(data) {
         //For eache one
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) {
             //Dislay the apropos information on the page
             $("#articles").append(
                 "<p class= 'card' data-id='" +
@@ -28,7 +30,7 @@ $(document).on("click", "#create", function() {
   //Empty note
   $("#notes").empty();
   //Save the id
-  var thisId = $(this).attr("data-id");
+  const thisId = $(this).attr("data-id");
 
   //ajax call
   $.ajax({
@@ -63,7 +65,7 @@ $(document).on("click", "#create", function() {
 //When you click
 $(document).on("click", "#savenote", function() {
   //Grab the id associated with article
-  var thisId = $(this).attr("data-id");
+  const thisId = $(this).attr("data-id");
 
   //POST request to change note
   $.ajax({
