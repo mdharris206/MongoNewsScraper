@@ -35,25 +35,28 @@ app.get("/scrape", function(req, res) {
     //body axios to cheerio
     var $ = cheerio.load(response.data);
     // Get text and href of each link in element
+    
+    var resultArray = [];
     $("h2").each(function(i, element) {
-      var result = {};
 
+      var result ={};
       result.title = $(this)
         .children("a")
         .text();
       result.summary = $(this)
-        .children("p")
-        .text();
+        .parent().parent().children(".content").find("p").text();
+        // .text();
       result.link = $(this)
         .children("a")
         .attr("href");
 
-      console.log(result);
-
-      //If this found element had both a title and a link
+        if(result.title !="" && result.link.slice(0,4) != "http"){
+        result.link = "https://www.gpbnews.org"+result.link;
+        resultArray.push(result)
+      }      
 
       // Insert the data in the scrapedArticle db
-      db.scrapedArticle
+      db.Article
         .create(result)
         .then(function(dbscrapedArticle) {
           //View the result
@@ -65,14 +68,15 @@ app.get("/scrape", function(req, res) {
         });
     });
 
-    res.send("Scrape Completed");
   });
+  
+  res.send("Scrape Completed");
 });
 
 //Route for getting all
 app.get("/articles", function(req, res) {
   // Grab documents in articles collection
-  db.scrapedArticle
+  db.Article
     .find({})
     .then(function(dbscrapedArticle) {
       //if success send back to client
@@ -87,7 +91,7 @@ app.get("/articles", function(req, res) {
 //Route to grab a specific article bt id and populate with note
 app.get("/articles/:id", function(req, res) {
   //Using the id passed in the id parameter, prepare a query that finds matching one in db
-  db.scrapedArticle
+  db.Article
     .findOne({ _id: req.params.id })
     // ...and populate all of the notes associated with it
     .populate("note")
@@ -102,6 +106,7 @@ app.get("/articles/:id", function(req, res) {
 });
 
 // Listen port 5000
-app.listen(PORT, function() {
-  console.log("App running port 5000");
-});
+
+  app.listen(PORT, function() {
+    console.log("App running port 5000");
+  });
